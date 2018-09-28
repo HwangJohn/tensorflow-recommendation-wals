@@ -73,7 +73,6 @@ if [[ ${TRAIN_JOB} == "local" ]]; then
   gcloud ml-engine local train \
     --module-name trainer.task \
     --package-path trainer \
-	--python-version 3.5 \
     -- \
     --job-dir jobs/${JOB_NAME} \
     ${ARGS}

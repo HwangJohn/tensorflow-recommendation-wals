@@ -49,7 +49,7 @@ date
 TIME=`date +"%Y%m%d_%H%M%S"`
 
 # CHANGE TO YOUR BUCKET
-BUCKET="gs://rec_serve"
+BUCKET="gs://recserve_buildingrecomsystem"
 
 if [[ $# < 2 ]]; then
   usage
@@ -60,7 +60,7 @@ fi
 TRAIN_JOB="$1"
 TRAIN_FILE="$2"
 JOB_NAME=wals_ml_${TRAIN_JOB}_${TIME}
-REGION=us-central1
+REGION=asia-east1
 
 # add additional args
 shift; shift
@@ -73,6 +73,7 @@ if [[ ${TRAIN_JOB} == "local" ]]; then
   gcloud ml-engine local train \
     --module-name trainer.task \
     --package-path trainer \
+	--python-version 3.5 \
     -- \
     --job-dir jobs/${JOB_NAME} \
     ${ARGS}
@@ -82,6 +83,7 @@ elif [[ ${TRAIN_JOB} == "train" ]]; then
   gcloud ml-engine jobs submit training ${JOB_NAME} \
     --region $REGION \
     --scale-tier=CUSTOM \
+	--python-version 3.5 \
     --job-dir ${BUCKET}/jobs/${JOB_NAME} \
     --module-name trainer.task \
     --package-path trainer \
@@ -107,6 +109,7 @@ elif [[ $TRAIN_JOB == "tune" ]]; then
     --module-name trainer.task \
     --package-path trainer \
     --config ${CONFIG_TUNE} \
+	--python-version 3.5 \
     -- \
     --hypertune \
     ${ARGS}

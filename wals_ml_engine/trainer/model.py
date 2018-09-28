@@ -109,12 +109,14 @@ def _ratings_train_and_test(use_headers, delimiter, input_file):
                            sep=delimiter,
                            names=headers,
                            header=header_row,
-                           dtype={
-                               'user_id': np.int32,
-                               'item_id': np.int32,
-                               'rating': np.float32,
-                               'timestamp': np.int32,
-                           })
+                           converters={'user_id': np.int32, 'item_id': np.int32, 'rating': np.float32,'timestamp': np.int32}
+                           # dtype={
+                           #     'user_id': np.int32,
+                           #     'item_id': np.int32,
+                           #     'rating': np.float32,
+                           #     'timestamp': np.int32,
+                           # }
+                           )
 
   np_users = ratings_df.user_id.as_matrix()
   np_items = ratings_df.item_id.as_matrix()
